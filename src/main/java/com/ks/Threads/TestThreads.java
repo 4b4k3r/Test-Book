@@ -22,34 +22,43 @@ public class TestThreads {
           un hilo, si lo hay esperando. notifyAll() despierta a todos los que estén esperando
 
     */
-    private Thread HiloLlenar;
+    private Thread hiloLlenar;
     private Thread HiloInsertarD;
     private Connection connection;
     private Queue cola;
     public int id;
 
     public TestThreads() {
-        HiloLlenar = new Thread();
+        hiloLlenar = new Thread();
         HiloInsertarD = new Thread();
         cola = new LinkedList();
-        id=1;
+        id = 1;
     }
 
 
     public void AgregarCola() {
         if (!HiloInsertarD.isAlive()) {
-            HiloLlenar = new Thread(() -> {
+            hiloLlenar = new Thread(() -> {
                 try {
-                    dato Dato =new dato(id, String.valueOf((int) (Math.random() * 100) + 1));
-                    cola.add(Dato);
-                    System.out.println("se ha agregado " + Dato.getDato() + " a la cola con id "+Dato.getId());
-                    id++;
+                    long tolerancia = System.currentTimeMillis() + (1 * 60 * 1000);
+                    do {
+                        dato Dato = new dato(id, String.valueOf((int) (Math.random() * 100) + 1));
+
+                        synchronized (cola) {
+                            cola.add(Dato);
+                        }
+
+                        System.out.println("se ha agregado " + Dato.getDato() + " a la cola con id " + Dato.getId());
+                        id++;
+                        Thread.sleep(300);
+
+                    } while (System.currentTimeMillis() < tolerancia);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             });
-            HiloLlenar.setDaemon(true);
-            HiloLlenar.start();
+            hiloLlenar.setDaemon(false);
+            hiloLlenar.start();
         }
     }
 
@@ -59,16 +68,16 @@ public class TestThreads {
             HiloInsertarD = new Thread(() -> {
                 try {
                     if (!conectarBD().isClosed())
-                    try {
+                        try {
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             });
-            HiloInsertarD.setDaemon(true);
+            HiloInsertarD.setDaemon(false);
             HiloInsertarD.start();
         }
     }

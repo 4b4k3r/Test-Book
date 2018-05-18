@@ -10,6 +10,6 @@ public class App {
         TestThreads testThreads = new TestThreads();
         testThreads.conectarBD();
         testThreads.AgregarCola();
-        testThreads.InsertarBd();
+        //testThreads.InsertarBd();
     }
 }
