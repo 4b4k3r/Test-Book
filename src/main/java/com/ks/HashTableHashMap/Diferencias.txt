@@ -1,0 +1,14 @@
+
+
+
+        Una Hastable tiene sincronizacion por lo que no es conveniente usarla para el uso de hilos
+        Hashmap permite multiples llaves y valores null mentras hashtable no
+        Hash map permite un orden de iteracion predecible
+
+
+        Map nos permite añadir, eliminar y modificar elementos de una HashTable o hashmap
+        Map utiliza un iterador que contiene tres metodos hasNext() para comprobar que aun hay elementos,
+        next() para avanzar y posicionarnos en el siguiente elemento y remove() para eliminar el elemento
+
+
+        para recorrer mapas se puede usar enumeradores o iteradores
