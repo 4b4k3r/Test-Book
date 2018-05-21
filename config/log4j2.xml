@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="5">
+    <Appenders>
+
+        <RollingFile name="info" fileName="log/info.log" filePattern="log/info-%d{yyyy-MM-dd}.log" >
+            <PatternLayout>
+                <Pattern>%d{HH:mm:ss.SSS} %-5level [%t] %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+         <Root level="ALL">
+             <AppenderRef ref="info"/>
+         </Root>
+    </Loggers>
+</Configuration>

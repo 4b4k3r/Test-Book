@@ -25,10 +25,21 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+
     <dependency>
       <groupId>org.xerial</groupId>
       <artifactId>sqlite-jdbc</artifactId>
-      <version>3.21.0.1</version>
+      <version>RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ks</groupId>
+      <artifactId>kslib</artifactId>
+      <version>RELEASE</version>
     </dependency>
   </dependencies>
 
