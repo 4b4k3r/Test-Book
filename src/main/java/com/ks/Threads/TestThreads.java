@@ -3,6 +3,7 @@ package com.ks.Threads;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -27,31 +28,36 @@ public class TestThreads {
     private Connection connection;
     private Queue cola;
     public int id;
+    public dato Datos;
+    public Statement statement;
 
     public TestThreads() {
         hiloLlenar = new Thread();
         HiloInsertarD = new Thread();
         cola = new LinkedList();
         id = 1;
+        try {
+            connection = conectarBD();
+            statement=connection.createStatement();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
     public void AgregarCola() {
-        if (!HiloInsertarD.isAlive()) {
+        if (!hiloLlenar.isAlive()) {
             hiloLlenar = new Thread(() -> {
                 try {
-                    long tolerancia = System.currentTimeMillis() + (1 * 60 * 1000);
+                    long tolerancia = System.currentTimeMillis() + (10000);
                     do {
                         dato Dato = new dato(id, String.valueOf((int) (Math.random() * 100) + 1));
-
                         synchronized (cola) {
                             cola.add(Dato);
                         }
-
                         System.out.println("se ha agregado " + Dato.getDato() + " a la cola con id " + Dato.getId());
                         id++;
                         Thread.sleep(300);
-
                     } while (System.currentTimeMillis() < tolerancia);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -64,18 +70,22 @@ public class TestThreads {
 
     public void InsertarBd() {
         if (!HiloInsertarD.isAlive()) {
-
             HiloInsertarD = new Thread(() -> {
-                try {
-                    if (!conectarBD().isClosed())
-                        try {
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                do {
+                    if (!cola.isEmpty()) {
+                        synchronized (cola) {
+                            try {
+                                Datos= (dato) cola.poll();
+                                int id=Datos.getId();
+                                String valor=Datos.getDato();
+                                statement.execute("INSERT INTO datos values ("+id+",'"+valor+"')");
+                                System.out.println("se ha guardado id: "+id+" con valor: "+valor);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                    }
+                } while (hiloLlenar.isAlive());
             });
             HiloInsertarD.setDaemon(false);
             HiloInsertarD.start();
