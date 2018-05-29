@@ -9,4 +9,19 @@ public class App {
         testThreads.start();
 
     }
+    public static String regresar(String s) {
+        String cadena = "";
+        int count = 0;
+        while (s.length() > count) {
+            cadena += s.toUpperCase().charAt(count);
+            for (int i = 0; i < count; i++) {
+                cadena += s.toLowerCase().charAt(count);
+            }
+            if (count != (s.length() - 1)) {
+                cadena += "-";
+            }
+            count++;
+        }
+        return cadena;
+    }
 }
