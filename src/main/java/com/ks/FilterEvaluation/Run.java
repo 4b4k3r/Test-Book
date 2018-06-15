@@ -32,7 +32,6 @@ public class Run
                 base.readLayoutConfiguration();
                 base.readFilterConfiguration();
 
-
                 ComunicationManager.startCollectorsService();
                 ComunicationManager.startDistributorService();
 
