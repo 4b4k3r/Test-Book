@@ -55,7 +55,8 @@
     <dependency>
       <groupId>oracle</groupId>
       <artifactId>ojdbc14</artifactId>
-      <version>RELEASE</version>
+      <version>RELEASE</version>git status
+
     </dependency>
   </dependencies>
 
