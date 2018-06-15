@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<comunicacion>
+    <colectores>
+        <colector>
+            <primaryIp>localhost</primaryIp>
+            <primaryPort>5000</primaryPort>
+            <secondaryIp>localhost</secondaryIp>
+            <secondaryPort>5001</secondaryPort>
+            <type>CLIENT</type>
+            <!-- MessageType 1 = Estandar, 2 = Stratus -->
+            <messageType>2</messageType>
+            <!-- MessageLength 1 = Normal, 2 = Corto -->
+            <messageLength>1</messageLength>
+            <user>rxd/8Wb99nog6bokD7PjMw==</user>
+            <responseLength>36</responseLength>
+            <responseId>01</responseId>
+            <!-- <confirmation>false</confirmation> -->
+            <confirmation>true</confirmation>
+            <reconection time="120000" value="2"/>
+
+            <saveKey value="true">
+                <field id="1" idField="8"/>
+                <field id="2" idField="98"/>
+                <field id="3" idField="97"/>
+                <field id="4" idField="18"/>
+                <field id="5" idField="21"/>
+            </saveKey>
+        </colector>
+
+        <colector>
+            <primaryIp>localhost</primaryIp>
+            <primaryPort>4000</primaryPort>
+            <secondaryIp>localhost</secondaryIp>
+            <secondaryPort>4001</secondaryPort>
+            <type>SERVER</type>
+            <!-- MessageType 1 = Estandar, 2 = Stratus -->
+            <messageType>2</messageType>
+            <!-- MessageLength 1 = Normal, 2 = Corto -->
+            <messageLength>1</messageLength>
+            <user>rxd/8Wb99nog6bokD7PjMw==</user>
+            <responseLength>36</responseLength>
+            <responseId>01</responseId>
+            <!-- <confirmation>false</confirmation> -->
+            <confirmation>true</confirmation>
+            <reconection time="120000" value="2"/>
+
+            <saveKey value="true">
+                <field id="1" idField="8"/>
+                <field id="2" idField="98"/>
+                <field id="3" idField="97"/>
+                <field id="4" idField="18"/>
+                <field id="5" idField="21"/>
+            </saveKey>
+        </colector>
+    </colectores>
+
+    <distribuidores>
+        <generalConfiguration layoutId="1" formatID="1" sequentialPorts="false"/>
+
+        <listenPort>6000</listenPort>
+        <numberOfPorts>OZk88GFshsTObEcrC5frlw==</numberOfPorts>
+        <replicador>P7eaLSlAWl5vp7fW4fqxng==</replicador>
+
+        <distribuidor>
+            <ip>localhost</ip>
+            <port>5000</port>
+            <type>CLIENT</type>
+            <token>true</token>
+        </distribuidor>
+
+        <distribuidor>
+            <ip>localhost</ip>
+            <port>5001</port>
+            <type>SERVER</type>
+            <token>true</token>
+        </distribuidor>
+
+    </distribuidores>
+</comunicacion>

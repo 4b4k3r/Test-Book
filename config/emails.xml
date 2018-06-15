@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <horaRelectura>00:50</horaRelectura>
+    <component>
+        <ip>10.21.76.17</ip>
+        <port>7070</port>
+    </component>
+    <mails>
+        <info>
+            <to>
+                <mail></mail>
+            </to>
+            <cc>
+                <mail></mail>
+            </cc>
+            <cco>
+                <mail></mail>
+            </cco>
+        </info>
+        <warn>
+            <to>
+                <mail></mail>
+            </to>
+            <cc>
+                <mail></mail>
+            </cc>
+            <cco>
+                <mail></mail>
+            </cco>
+        </warn>
+        <error>
+            <to>
+                <mail></mail>
+            </to>
+            <cc>
+                <mail></mail>
+            </cc>
+            <cco>
+                <mail></mail>
+            </cco>
+        </error>
+    </mails>
+</configuration>

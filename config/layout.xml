@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <fields>
+        <!--
+            field types available
+            - alphanumeric
+            - numeric
+
+            <field sec="" idField="" type="" name="" length=""/>
+        -->
+        <field sec="1" idField="2" type="alphanumeric" name="DAT_TIM" length="16"/>
+        <field sec="2" idField="3" type="alphanumeric" name="REC_TYPE" length="2"/>
+        <field sec="3" idField="5" type="alphanumeric" name="LN" length="4"/>
+        <field sec="4" idField="6" type="alphanumeric" name="FIID_TARJETA" length="4"/>
+        <field sec="5" idField="7" type="alphanumeric" name="CARD" length="22"/>
+        <field sec="6" idField="8" type="alphanumeric" name="CARD_NUM" length="19"/>
+        <field sec="7" idField="10" type="alphanumeric" name="PREFIJO6" length="6"/>
+        <field sec="8" idField="12" type="alphanumeric" name="MBR_NUM" length="3"/>
+        <field sec="9" idField="15" type="alphanumeric" name="LN" length="4"/>
+        <field sec="10" idField="17" type="alphanumeric" name="FIID" length="4"/>
+        <field sec="11" idField="18" type="alphanumeric" name="GPR" length="4"/>
+        <field sec="12" idField="19" type="alphanumeric" name="REGN" length="4"/>
+        <field sec="13" idField="20" type="alphanumeric" name="ID" length="19"/>
+        <field sec="14" idField="21" type="alphanumeric" name="TERM_ID" length="16"/>
+        <field sec="15" idField="25" type="alphanumeric" name="LN" length="4"/>
+        <field sec="16" idField="26" type="alphanumeric" name="FIID_TERMINAL" length="4"/>
+        <field sec="17" idField="27" type="alphanumeric" name="TERM_ID" length="16"/>
+        <field sec="18" idField="28" type="alphanumeric" name="TIM" length="8"/>
+        <field sec="19" idField="34" type="alphanumeric" name="TERM_ID" length="16"/>
+        <field sec="20" idField="36" type="alphanumeric" name="REC_FRMT" length="1"/>
+        <field sec="21" idField="37" type="alphanumeric" name="RETAILER_ID" length="19"/>
+        <field sec="22" idField="38" type="alphanumeric" name="CLERBK_ID" length="6"/>
+        <field sec="23" idField="41" type="alphanumeric" name="TYP" length="4"/>
+        <field sec="24" idField="42" type="alphanumeric" name="RTE_STAT" length="2"/>
+        <field sec="25" idField="43" type="alphanumeric" name="ORIGINATOR" length="1"/>
+        <field sec="26" idField="44" type="alphanumeric" name="RESPONDER" length="1"/>
+        <field sec="27" idField="46" type="alphanumeric" name="ENTRY_TIM" length="16"/>
+        <field sec="28" idField="47" type="alphanumeric" name="EXIT_TIM" length="16"/>
+        <field sec="29" idField="48" type="alphanumeric" name="RE_ENTRY_TIM" length="16"/>
+        <field sec="30" idField="45" type="alphanumeric" name="ISS_CDE" length="2"/>
+        <field sec="31" idField="49" type="alphanumeric" name="TRAN_DAT" length="6"/>
+        <field sec="32" idField="53" type="alphanumeric" name="TRAN_TIM" length="8"/>
+        <field sec="33" idField="58" type="alphanumeric" name="POST_DAT" length="6"/>
+        <field sec="34" idField="62" type="alphanumeric" name="ACQ_ICHG_SETL_DAT" length="6"/>
+        <field sec="35" idField="66" type="alphanumeric" name="ISS_ICHG_SETL_DAT" length="6"/>
+        <field sec="36" idField="70" type="alphanumeric" name="SEQ_NUM" length="12"/>
+        <field sec="37" idField="71" type="alphanumeric" name="TERM_NAME_LOC" length="25"/>
+        <field sec="38" idField="72" type="alphanumeric" name="TERM_OWNER_NAME" length="22"/>
+        <field sec="39" idField="73" type="alphanumeric" name="TERM_CITY" length="13"/>
+        <field sec="40" idField="74" type="alphanumeric" name="TERM_ST" length="3"/>
+        <field sec="41" idField="75" type="alphanumeric" name="TERM_CNTRY_CDE" length="2"/>
+        <field sec="42" idField="76" type="alphanumeric" name="BRCH_ID" length="4"/>
+        <field sec="43" idField="78" type="alphanumeric" name="TERM_TIM_OFST" length="2"/>
+        <field sec="44" idField="79" type="alphanumeric" name="ACQ_INST_ID_NUM" length="11"/>
+        <field sec="45" idField="80" type="alphanumeric" name="RCV_INST_ID_NUM" length="11"/>
+        <field sec="46" idField="81" type="alphanumeric" name="TERM_TYP" length="2"/>
+        <field sec="47" idField="82" type="alphanumeric" name="CLERK_ID" length="6"/>
+        <field sec="48" idField="84" type="alphanumeric" name="GRP" length="4"/>
+        <field sec="49" idField="85" type="alphanumeric" name="USER_ID" length="8"/>
+        <field sec="50" idField="86" type="alphanumeric" name="RETL_SIC_CDE" length="4"/>
+        <field sec="51" idField="87" type="alphanumeric" name="ORIG" length="4"/>
+        <field sec="52" idField="88" type="alphanumeric" name="DEST" length="4"/>
+        <field sec="53" idField="90" type="alphanumeric" name="TC" length="2"/>
+        <field sec="54" idField="91" type="alphanumeric" name="T" length="1"/>
+        <field sec="55" idField="92" type="alphanumeric" name="AA" length="2"/>
+        <field sec="56" idField="93" type="alphanumeric" name="C" length="1"/>
+        <field sec="57" idField="94" type="alphanumeric" name="CARD_TYP" length="2"/>
+        <field sec="58" idField="96" type="alphanumeric" name="ACCT_NUM" length="19"/>
+        <field sec="59" idField="97" type="alphanumeric" name="RESP_CDE" length="3"/>
+        <field sec="60" idField="98" type="alphanumeric" name="AMT_1" length="8"/>
+        <field sec="61" idField="99" type="alphanumeric" name="AMT_2" length="8"/>
+        <field sec="62" idField="100" type="alphanumeric" name="EXP_DAT" length="4"/>
+        <field sec="63" idField="103" type="alphanumeric" name="PRE_AUTH_SEQ_NUM" length="12"/>
+        <field sec="64" idField="104" type="alphanumeric" name="INVOICE_NUM" length="10"/>
+        <field sec="65" idField="105" type="alphanumeric" name="ORIG_INVOICE_NUM" length="10"/>
+        <field sec="66" idField="106" type="alphanumeric" name="AUTHORIZER" length="16"/>
+        <field sec="67" idField="107" type="alphanumeric" name="AUTH_IND" length="1"/>
+        <field sec="68" idField="108" type="alphanumeric" name="SHIFT_NUM" length="3"/>
+        <field sec="69" idField="109" type="alphanumeric" name="BATCH_SEQ_NUM" length="3"/>
+        <field sec="70" idField="110" type="alphanumeric" name="APPRV_CDE" length="8"/>
+        <field sec="71" idField="111" type="alphanumeric" name="APPRV_CDE_LGTH" length="1"/>
+        <field sec="72" idField="112" type="alphanumeric" name="ICHG_RESP" length="8"/>
+        <field sec="73" idField="113" type="alphanumeric" name="PSEUDO_TERM_ID" length="4"/>
+        <field sec="74" idField="114" type="alphanumeric" name="RFRL_PHONE" length="20"/>
+        <field sec="75" idField="115" type="alphanumeric" name="DFT_CAPTURE_FLAG" length="1"/>
+        <field sec="76" idField="116" type="alphanumeric" name="SETL_FLAG" length="1"/>
+        <field sec="77" idField="117" type="alphanumeric" name="RVRL_CDE" length="2"/>
+        <field sec="78" idField="118" type="alphanumeric" name="REA_FOR_CHRGBCK" length="2"/>
+        <field sec="79" idField="119" type="alphanumeric" name="NUM_OF_CHRGBCK" length="1"/>
+        <field sec="80" idField="120" type="alphanumeric" name="PT_SRV_COND_CDE" length="2"/>
+        <field sec="81" idField="121" type="alphanumeric" name="PT_SRV_ENTRY_MDE" length="3"/>
+        <field sec="82" idField="122" type="alphanumeric" name="AUTH_IND2" length="1"/>
+        <field sec="83" idField="123" type="alphanumeric" name="ORIG_CRNCY_CDE" length="3"/>
+        <field sec="84" idField="125" type="alphanumeric" name="MULT_CRNCY" length="30"/>
+        <field sec="85" idField="126" type="alphanumeric" name="AUTH_CRNYC_CDE" length="3"/>
+        <field sec="86" idField="127" type="alphanumeric" name="AUTH_CONV_RATE" length="8"/>
+        <field sec="87" idField="128" type="alphanumeric" name="SETL_CRNCY_CDE" length="3"/>
+        <field sec="88" idField="129" type="alphanumeric" name="SETL_CONV_RATE" length="8"/>
+        <field sec="89" idField="130" type="alphanumeric" name="CONV_DAT_TIM" length="16"/>
+        <field sec="90" idField="132" type="alphanumeric" name="IMP_IND" length="1"/>
+        <field sec="91" idField="133" type="alphanumeric" name="AVAIL_BAL" length="1"/>
+        <field sec="92" idField="135" type="alphanumeric" name="LEDG_BAL" length="1"/>
+        <field sec="93" idField="137" type="alphanumeric" name="AMT_ON_HOLD" length="1"/>
+        <field sec="94" idField="141" type="alphanumeric" name="ADJ_SETL_IMPACT_FLG" length="1"/>
+        <field sec="95" idField="143" type="alphanumeric" name="PBF1" length="1"/>
+        <field sec="96" idField="144" type="alphanumeric" name="PBF2" length="1"/>
+        <field sec="97" idField="145" type="alphanumeric" name="PBF3" length="1"/>
+        <field sec="98" idField="146" type="alphanumeric" name="PBF4" length="1"/>
+        <field sec="99" idField="147" type="alphanumeric" name="FRWD_INST_ID_NUM" length="11"/>
+        <field sec="100" idField="148" type="alphanumeric" name="CRD_ACCPT_ID_NUM" length="11"/>
+        <field sec="101" idField="149" type="alphanumeric" name="CRD_ISS_ID_NUM" length="11"/>
+        <field sec="102" idField="150" type="alphanumeric" name="ORIG_MSG_TYP" length="4"/>
+        <field sec="103" idField="151" type="alphanumeric" name="ORIG_TRAN_TIM" length="8"/>
+        <field sec="104" idField="156" type="alphanumeric" name="ORIG_TRAN_DAT" length="4"/>
+        <field sec="105" idField="157" type="alphanumeric" name="ORIG_SEQ_NUM" length="12"/>
+        <field sec="106" idField="158" type="alphanumeric" name="ORIG_B24_POST_DAT" length="4"/>
+        <field sec="107" idField="159" type="alphanumeric" name="EXCP_RSN_CDE" length="3"/>
+        <field sec="108" idField="160" type="alphanumeric" name="OVRRDE_FLG" length="1"/>
+        <field sec="109" idField="161" type="alphanumeric" name="ADDR" length="20"/>
+        <field sec="110" idField="162" type="alphanumeric" name="ZIP_CDE" length="9"/>
+        <field sec="111" idField="163" type="alphanumeric" name="ADDR_VRFY_STAT" length="1"/>
+        <field sec="112" idField="176" type="alphanumeric" name="PRE_AUTH_HLDS_LVL" length="1"/>
+        <field sec="113" idField="180" type="alphanumeric" name="INFO" length="700"/>
+    </fields>
+</configuration>

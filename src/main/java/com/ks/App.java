@@ -1,12 +1,12 @@
 package com.ks;
 
-import com.ks.Threads.TestThreads;
-public class App {
 
-    public static void main(String[] args) {
+import com.ks.FilterEvaluation.Run;
 
-        TestThreads testThreads = new TestThreads();
-        testThreads.start();
-
+public class App
+{
+    public static void main(String[] args)
+    {
+        Run.correr();
     }
 }

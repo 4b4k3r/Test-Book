@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <applicationData>
+        <guideType>2</guideType>
+    </applicationData>
+
+    <dataBase>
+        <!-- Type 1 = SqlServer, 2 = MySql, 3 = Oracle, 4 = xml-->
+        <dataBaseType>2</dataBaseType>
+        <server>192.168.1.30</server>
+        <base>kmv4</base>
+        <instance></instance>
+        <user>ks_desa</user>
+        <password>62eL47SUqZvsrsTY8vCW6Q==</password>>
+    </dataBase>
+</configuration>

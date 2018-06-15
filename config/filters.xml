@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <filters>
+        <filter port="5000">
+            <condition id="1" idField="98" connector="" negate="false" operator=">" parenthesis="" value="100000" />
+            <condition id="2" idField="97" connector="y" negate="false" operator=">" parenthesis="" value="000" />
+        </filter>
+        <filter port="7500">
+            <condition id="1" idField="98" connector="" negate="false" operator=">" parenthesis="" value="100000" />
+            <condition id="2" idField="97" connector="y" negate="false" operator=">" parenthesis="" value="000" />
+        </filter>
+        <filter port="8500">
+            <condition id="1" idField="98" connector="" negate="false" operator=">" parenthesis="" value="100000" />
+            <condition id="2" idField="97" connector="y" negate="false" operator=">" parenthesis="" value="000" />
+        </filter>
+    </filters>
+</configuration>

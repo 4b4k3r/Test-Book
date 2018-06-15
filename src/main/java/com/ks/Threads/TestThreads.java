@@ -17,7 +17,7 @@ public class TestThreads {
     private Thread hiloLlenar;
     private Thread HiloInsertarD;
     private Connection connection;
-    private Queue cola;
+    private Queue<dato> cola;
     public int id;
     public dato Datos;
     public Statement statement;
@@ -72,7 +72,7 @@ public class TestThreads {
                     if (!cola.isEmpty()) {
                         synchronized (cola) {
                             try {
-                                Datos = (dato) cola.poll();
+                                Datos = cola.poll();
                                 int id = Datos.getId();
                                 String valor = Datos.getDato();
                                 statement.execute("INSERT INTO datos values (" + id + ",'" + valor + "')");
@@ -80,6 +80,12 @@ public class TestThreads {
                             } catch (Exception e) {
                                 Depuracion.error("Error al insertar datos: " + e.getMessage());
                             }
+                        }
+                    } else {
+                        try {
+                            Thread.sleep(20);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
                     }
                 } while (hiloLlenar.isAlive());

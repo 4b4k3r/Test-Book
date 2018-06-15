@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="5">
+
+    <Appenders>
+
+        <RollingFile name="file-day" fileName="log/guia.log" filePattern="log/guia-%d{yyyy-MM-dd}.log">
+            <MarkerFilter marker="XML" onMatch="DENY" onMismatch="ACCEPT"/>
+            <PatternLayout>
+                <Pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="file-day2" fileName="log/guia.log" filePattern="log/guia-%d{yyyy-MM-dd}.log">
+            <MarkerFilter marker="XML" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <Pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+        <Root level="ALL">
+            <AppenderRef ref="file-day"/>
+            <AppenderRef ref="file-day2"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
