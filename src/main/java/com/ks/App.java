@@ -1,12 +1,14 @@
 package com.ks;
 
+import com.ks.TestFilter.TestFilter;
+import com.ks.TestFilter.TestFilter2;
 
-import com.ks.FilterEvaluation.Run;
-
-public class App
-{
+public class App {
     public static void main(String[] args)
     {
-        Run.correr();
+        TestFilter testFilter= new TestFilter();
+        testFilter.datos();
+        TestFilter2 testFilter2= new TestFilter2();
+        testFilter2.datos();
     }
 }
