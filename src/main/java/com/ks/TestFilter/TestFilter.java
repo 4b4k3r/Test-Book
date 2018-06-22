@@ -3,13 +3,19 @@ package com.ks.TestFilter;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import java.text.SimpleDateFormat;
 
 public class TestFilter
 {
     private final ScriptEngineManager m = new ScriptEngineManager();
     private final ScriptEngine e = m.getEngineByName("js");
     private String Script = "";
+    private static SimpleDateFormat simpleDateFormat;
     private long inicio = System.currentTimeMillis();
+
+    static {
+        simpleDateFormat = new SimpleDateFormat("ddmmyyyy");
+    }
 
     private enum Operators
     {
@@ -55,7 +61,8 @@ public class TestFilter
 
     public void datos()
     {
-        String script = (EvalData("true", "<", "", "(", "27/06/2017", "25/07/06","10"));
+        //String script = (EvalData("false", ">", "", "", "27/06/2017", "25/07/06","30"));
+        String script = (EvalData("false", "<", "", "(", "27/06/2017", "25/07/06","10"));
         script += (EvalData("false", "LIKE", "0", ")", "Z264*", "Z264","30"));
         script += (EvalData("false", "<=", "1", "(", "35", "96","10"));
         script += (EvalData("false", "<=", "1", ")", "35", "96","10"));
@@ -72,7 +79,7 @@ public class TestFilter
             Script += (parenthesis.equals("(")) ? "(" : "";
             Script += (value.contains("*")) ? "(\"" + dato + "\")" + Operators.forValue(operator).getOperadorCodigo() + "(\"" + value.replace('*', '%') + "\") " : "(\"" + dato + "\")" + Operators.forValue(operator).getOperadorCodigo() + "(\"" + value + "\") ";
             Script += (parenthesis.equals(")")) ? ")" : "";
-            Script =(!type.equals("30")) ? Script.replace("\"",""): Script;
+            Script = (!type.equals("30")) ? Script.replace("\"","") :  Script;
             return Script;
         }
         return null;
@@ -93,4 +100,5 @@ public class TestFilter
         }
         return false;
     }
+
 }
