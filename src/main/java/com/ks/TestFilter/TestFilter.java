@@ -19,7 +19,7 @@ public class TestFilter
 
     private enum Operators
     {
-        IGUAL("=", " == "), NO_IGUAL("<>", " != "), MENOR("<", " < "), MAYOR(">", " > "), MAYOR_IGUAL(">=", " >= "), MENOR_IGUAL("<=", " <= "), COMO("LIKE", ".equals");
+        IGUAL("=", " == "), NO_IGUAL("<>", " != "), MENOR("<", " < "), MAYOR(">", " > "), MAYOR_IGUAL(">=", " >= "), MENOR_IGUAL("<=", " <= "), COMO("LIKE", ".contains");
 
         private String operador;
         private String operadorCodigo;
@@ -62,10 +62,14 @@ public class TestFilter
     public void datos()
     {
         //String script = (EvalData("false", ">", "", "", "27/06/2017", "25/07/06","30"));
-        String script = (EvalData("false", "<", "", "(", "27/06/2017", "25/07/06","10"));
-        script += (EvalData("false", "LIKE", "0", ")", "Z264*", "Z264","30"));
-        script += (EvalData("false", "<=", "1", "(", "35", "96","10"));
-        script += (EvalData("false", "<=", "1", ")", "35", "96","10"));
+        String script = (EvalData("false", ">", "", "(", "27/06/2017", "25/07/2016", "30"));
+        script += (EvalData("false", "LIKE", "0", "", "Z264", "Z264*", "1"));
+        script += (EvalData("false", "LIKE", "0", ")", "B003*", "B0030606", "1"));
+        script += (EvalData("false", "<>", "1", "(", "35", "96", "10"));
+        script += (EvalData("false", "<=", "0", ")", "5", "16", "10"));
+        script += (EvalData("false", "<", "1", "(", "5", "16", "10"));
+        script += (EvalData("false", ">", "0", ")", "5", "16", "10"));
+        //script += (EvalData("false", "<=", "1", ")", "35", "96","10"));
         System.out.println("Result TestFilter 1 (" + EvaluationProccess(script) + ") -> " + script + " Evaluado en " + (System.currentTimeMillis() - inicio) + " milisegundos");
     }
 
@@ -74,12 +78,12 @@ public class TestFilter
         if (dato != null)
         {
             Script = (negate.equals("true")) ? " ! " : "";
-            Script += (connector.equals("0")) ? " || " : "";
-            Script += (connector.equals("1")) ? " && " : "";
+            Script += (connector.equals("1")) ? " || " : "";
+            Script += (connector.equals("0")) ? " && " : "";
             Script += (parenthesis.equals("(")) ? "(" : "";
-            Script += (value.contains("*")) ? "(\"" + dato + "\")" + Operators.forValue(operator).getOperadorCodigo() + "(\"" + value.replace('*', '%') + "\") " : "(\"" + dato + "\")" + Operators.forValue(operator).getOperadorCodigo() + "(\"" + value + "\") ";
+            Script += (value.contains("*")) ? "(\"" + dato + "\")" + Operators.forValue(operator).getOperadorCodigo() + "(\"" + value.replace('*','%') : "(\"" + dato + "\")" + Operators.forValue(operator).getOperadorCodigo() + "(\"" + value + "\") ";
             Script += (parenthesis.equals(")")) ? ")" : "";
-            Script = (!type.equals("30")) ? Script.replace("\"","") :  Script;
+            Script = (type.equals("10")||type.equals("11")) ? Script.replace("\""," ") :  Script;
             return Script;
         }
         return null;
@@ -88,7 +92,7 @@ public class TestFilter
     private Boolean EvaluationProccess(String script)
     {
         String Script = "" + "var echo; if (" + script + "){ echo=true; } else { echo=false; }";
-        System.out.println(Script);
+        //System.out.println(Script);
         try
         {
             e.eval(Script);

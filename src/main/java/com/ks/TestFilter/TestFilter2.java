@@ -1,13 +1,19 @@
 package com.ks.TestFilter;
 
-public class TestFilter2
-{    private String Script = "";
-    private long inicio = System.currentTimeMillis();
+import java.util.LinkedList;
+import java.util.Queue;
 
+public class TestFilter2
+{
+    private long inicio = System.currentTimeMillis();
+    private Queue<String> QUEUE_OPERATORS = new LinkedList();
+    private Queue<String> QUEUE_VALUES = new LinkedList();
+    private Queue<Boolean> QUEUE_RESULTS = new LinkedList();
+    private Queue<Boolean> QUEUE_RESULTS_FINAL = new LinkedList();
 
     private enum Operators
     {
-        IGUAL("=", " == "), NO_IGUAL("<>", " != "), MENOR("<", " < "), MAYOR(">", " > "), MAYOR_IGUAL(">=", " >= "), MENOR_IGUAL("<=", " <= "), COMO("LIKE", ".equals");
+        IGUAL("=", " == "), NO_IGUAL("<>", " != "), MENOR("<", " < "), MAYOR(">", " > "), MAYOR_IGUAL(">=", " >= "), MENOR_IGUAL("<=", " <= "), COMO("LIKE", ".equals"), Y("0", " && "), O("1", " || "), NEGATE("true", "!");
 
         private String operador;
         private String operadorCodigo;
@@ -41,6 +47,12 @@ public class TestFilter2
                     return MAYOR_IGUAL;
                 case "LIKE":
                     return COMO;
+                case "0":
+                    return Y;
+                case "1":
+                    return O;
+                case "true":
+                    return NEGATE;
                 default:
                     return null;
             }
@@ -49,33 +61,430 @@ public class TestFilter2
 
     public void datos()
     {
-        String script = (EvalData("true", "<", "", "(", "27/06/2017", "25/07/06"));
-        script += (EvalData("false", "LIKE", "0", ")", "Z264*", "Z264"));
-        script += (EvalData("false", "<=", "1", "(", "35", "96"));
-        script += (EvalData("false", "<=", "1", ")", "35", "96"));
-        System.out.println("Result TestFilter 2 (" + EvaluationProccess(script) + ") -> " + script + " Evaluado en " + (System.currentTimeMillis() - inicio) + " milisegundos");
-        EvaluationProccess(script);
+        listData("false", ">", "", "(", "27/06/2017", "25/07/2016", "30");
+        listData("false", "LIKE", "0", "", "Z264", "Z264*", "1");
+        listData("false", "LIKE", "0", ")", "B003*", "B0030606", "1");
+        listData("false", "<>", "1", "(", "35", "96", "10");
+        listData("false", "<=", "0", ")", "5", "16", "10");
+        listData("false", "<", "1", "(", "5", "16", "10");
+        listData("false", ">", "0", ")", "5", "16", "10");
+        depurationProccess();
+        EvaluationProccess();
+        System.out.println("Result TestFilter 1 (" + QUEUE_RESULTS_FINAL.peek() + ") ->  Evaluado en " + (System.currentTimeMillis() - inicio) + " milisegundos");
     }
 
-    private String EvalData(String negate, String operator, String connector, String parenthesis, String value, String dato)
+    private void listData(String negate, String operator, String connector, String parenthesis, String value, String dato, String type)
     {
         if (dato != null)
         {
-            Script = (negate.equals("true")) ? " ! " : "";
-            Script += (connector.equals("0")) ? " || " : "";
-            Script += (connector.equals("1")) ? " && " : "";
-            Script += (parenthesis.equals("(")) ? "(" : "";
-            Script += (value.contains("*")) ? "(\"" + dato + "\")" + Operators.forValue(operator).getOperadorCodigo() + "(\"" + value.replace('*', '%') + "\") " : "(\"" + dato + "\")" + Operators.forValue(operator).getOperadorCodigo() + "(\"" + value + "\") ";
-            Script += (parenthesis.equals(")")) ? ")" : "";
-            return Script;
+            if (negate.equals("true"))
+            {
+                QUEUE_OPERATORS.add(Operators.forValue(negate).getOperadorCodigo());
+            }
+            if (!connector.equals(""))
+            {
+                QUEUE_OPERATORS.add(Operators.forValue(connector).getOperadorCodigo());
+            }
+            if (parenthesis.equals("(") || parenthesis.equals(")"))
+            {
+                QUEUE_OPERATORS.add(parenthesis);
+            }
+            QUEUE_VALUES.add(type);
+            QUEUE_VALUES.add(dato);
+            QUEUE_VALUES.add(Operators.forValue(operator).getOperadorCodigo());
+            QUEUE_VALUES.add(value);
         }
-        return null;
     }
 
-    private Boolean EvaluationProccess(String script)
+    private void depurationProccess()
     {
 
-        return false;
+        while (!QUEUE_VALUES.isEmpty())
+        {
+            String type = QUEUE_VALUES.poll();
+            if (type.equals("10") || type.equals("11"))
+            {
+                double val1 = Double.parseDouble(QUEUE_VALUES.poll());
+                String operador = QUEUE_VALUES.poll();
+                double val12 = Double.parseDouble(QUEUE_VALUES.poll());
+                if (operador.equals(" < "))
+                {
+                    if (val1 < val12)
+                    {
+                        QUEUE_RESULTS.add(true);
+                    }
+                    else
+                    {
+                        QUEUE_RESULTS.add(false);
+                    }
+                }
+                else if (operador.equals(" > "))
+                {
+                    if (val1 > val12)
+                    {
+                        QUEUE_RESULTS.add(true);
+                    }
+                    else
+                    {
+                        QUEUE_RESULTS.add(false);
+                    }
+                }
+                else if (operador.equals(" >= "))
+                {
+                    if (val1 >= val12)
+                    {
+                        QUEUE_RESULTS.add(true);
+                    }
+                    else
+                    {
+                        QUEUE_RESULTS.add(false);
+                    }
+                }
+                else if (operador.equals(" <= "))
+                {
+                    if (val1 <= val12)
+                    {
+                        QUEUE_RESULTS.add(true);
+                    }
+                    else
+                    {
+                        QUEUE_RESULTS.add(false);
+                    }
+                }
+                else if (operador.equals(" != "))
+                {
+                    if (val1 != val12)
+                    {
+                        QUEUE_RESULTS.add(true);
+                    }
+                    else
+                    {
+                        QUEUE_RESULTS.add(false);
+                    }
+                }
+                else if (operador.equals(" == "))
+                {
+                    if (val1 > val12)
+                    {
+                        QUEUE_RESULTS.add(true);
+                    }
+                    else
+                    {
+                        QUEUE_RESULTS.add(false);
+                    }
+                }
+            }
+            else if (type.equals("1"))
+            {
+                String val12 = QUEUE_VALUES.poll();
+                String operador = QUEUE_VALUES.poll();
+                String val1 = QUEUE_VALUES.poll();
+                if (operador.equals(".equals"))
+                {
+                    if (val12.contains(val1))
+                    {
+                        QUEUE_RESULTS.add(true);
+                    }
+                    else
+                    {
+                        QUEUE_RESULTS.add(false);
+                    }
+                }
+            }
+            else if (type.equals("30"))
+            {
+                String fecha1 = QUEUE_VALUES.poll();
+                String operador = QUEUE_VALUES.poll();
+                String fecha2 = QUEUE_VALUES.poll();
+                int result = fecha1.compareTo(fecha2);
+                if (result > 0 && operador.equals(" > "))
+                {
+                    QUEUE_RESULTS.add(true);
+                }
+                else if (result == 0 && operador.equals(" = "))
+                {
+                    QUEUE_RESULTS.add(true);
+                }
+                else if (result < 0 && operador.equals(" < "))
+                {
+                    QUEUE_RESULTS.add(true);
+                }
+                else
+                {
+                    QUEUE_RESULTS.add(false);
+                }
+            }
+        }
     }
 
+    private Boolean EvaluationProccess()
+    {
+        while (!QUEUE_OPERATORS.isEmpty())
+        {
+            String elemento = QUEUE_OPERATORS.poll();
+            if (QUEUE_OPERATORS.size()==0){
+                break;
+            }
+            if (QUEUE_RESULTS_FINAL.isEmpty() || (QUEUE_RESULTS_FINAL.size() > 0 && elemento.equals(")")))
+            {
+                if (elemento.equals(")"))
+                {
+                    elemento = QUEUE_OPERATORS.poll();
+                }
+                if (elemento.equals("!"))
+                {
+                    elemento = QUEUE_OPERATORS.poll();
+                    if (elemento.equals("("))
+                    {
+                        elemento = QUEUE_OPERATORS.poll();
+                        Boolean d1 = QUEUE_RESULTS.poll();
+                        Boolean d2 = QUEUE_RESULTS.poll();
+                        if (elemento.equals(" && "))
+                        {
+                            if (d1 && d2)
+                            {
+                                QUEUE_RESULTS_FINAL.add(true);
+                            }
+                            else
+                            {
+                                QUEUE_RESULTS_FINAL.add(false);
+                            }
+                        }
+                        else
+                        {
+                            if (d1 || d2)
+                            {
+                                QUEUE_RESULTS_FINAL.add(true);
+                            }
+                            else
+                            {
+                                QUEUE_RESULTS_FINAL.add(false);
+                            }
+                        }
+                    }
+                    else if (elemento.equals(" && "))
+
+                    {
+                        Boolean d1 = QUEUE_RESULTS.poll();
+                        Boolean d2 = QUEUE_RESULTS.poll();
+                        if (d1 && d2)
+                        {
+                            QUEUE_RESULTS_FINAL.add(true);
+                        }
+                        else
+                        {
+                            QUEUE_RESULTS_FINAL.add(false);
+                        }
+                    }
+                    else
+                    {
+                        Boolean d1 = QUEUE_RESULTS.poll();
+                        Boolean d2 = QUEUE_RESULTS.poll();
+                        if (QUEUE_RESULTS.poll() || QUEUE_RESULTS.poll())
+                        {
+                            QUEUE_RESULTS_FINAL.add(true);
+                        }
+                        else
+                        {
+                            QUEUE_RESULTS_FINAL.add(false);
+                        }
+                    }
+                }
+                else if (elemento.equals("("))
+                {
+                    elemento = QUEUE_OPERATORS.poll();
+                    Boolean d1 = QUEUE_RESULTS.poll();
+                    Boolean d2 = QUEUE_RESULTS.poll();
+                    if (elemento.equals(" && "))
+                    {
+                        if (d1 && d2)
+                        {
+                            QUEUE_RESULTS_FINAL.add(true);
+                        }
+                        else
+                        {
+                            QUEUE_RESULTS_FINAL.add(false);
+                        }
+                    }
+                    else
+                    {
+                        if (d1 || d2)
+                        {
+                            QUEUE_RESULTS_FINAL.add(true);
+                        }
+                        else
+                        {
+                            QUEUE_RESULTS_FINAL.add(false);
+                        }
+                    }
+                }
+                else if (elemento.equals(" && "))
+                {
+                    Boolean d1 = QUEUE_RESULTS.poll();
+                    Boolean d2 = QUEUE_RESULTS.poll();
+                    if (d1 && d2)
+                    {
+                        QUEUE_RESULTS_FINAL.add(true);
+                    }
+                    else
+                    {
+                        QUEUE_RESULTS_FINAL.add(false);
+                    }
+                }
+                else
+                {
+                    elemento = QUEUE_OPERATORS.poll();
+                    if (elemento.equals("("))
+                    {
+                        Boolean d1 = QUEUE_RESULTS.poll();
+                        Boolean d2 = QUEUE_RESULTS.poll();
+                        if (d1 || d2)
+                        {
+                            QUEUE_RESULTS_FINAL.add(true);
+                        }
+                        else
+                        {
+                            QUEUE_RESULTS_FINAL.add(false);
+                        }
+                    }
+                    else
+                    {
+                        Boolean d1 = QUEUE_RESULTS.poll();
+                        Boolean d2 = QUEUE_RESULTS.poll();
+                        if (d1 || d2)
+                        {
+                            QUEUE_RESULTS_FINAL.add(true);
+                        }
+                        else
+                        {
+                            QUEUE_RESULTS_FINAL.add(false);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (elemento.equals(")"))
+                {
+                    elemento = QUEUE_OPERATORS.poll();
+                }
+                else if (elemento.equals("!"))
+                {
+                    elemento = QUEUE_OPERATORS.poll();
+                    if (elemento.equals("("))
+                    {
+                        elemento = QUEUE_OPERATORS.poll();
+                        if (elemento.equals(" && "))
+                        {
+                            Boolean d1 = QUEUE_RESULTS.poll();
+                            Boolean d2 = QUEUE_RESULTS.poll();
+                            if (d1 && d2)
+                            {
+                                QUEUE_RESULTS_FINAL.add(true);
+                            }
+                        }
+                        else
+                        {
+                            Boolean d1 = QUEUE_RESULTS.poll();
+                            Boolean d2 = QUEUE_RESULTS.poll();
+                            if (d1 || d2)
+                            {
+                                QUEUE_RESULTS_FINAL.add(true);
+                            }
+                        }
+                    }
+                    else if (elemento.equals(" && "))
+                    {
+                        Boolean d1 = QUEUE_RESULTS.poll();
+                        Boolean d2 = QUEUE_RESULTS.poll();
+                        if (d1 && d2)
+                        {
+                            QUEUE_RESULTS_FINAL.add(true);
+                        }
+                    }
+                    else
+                    {
+                        Boolean d1 = QUEUE_RESULTS.poll();
+                        Boolean d2 = QUEUE_RESULTS.poll();
+                        if (d1 || d2)
+                        {
+                            QUEUE_RESULTS_FINAL.add(true);
+                        }
+                        else
+                        {
+                            QUEUE_RESULTS_FINAL.add(false);
+                        }
+                    }
+                }
+                else if (elemento.equals("("))
+                {
+                    elemento = QUEUE_OPERATORS.poll();
+                    if (elemento.equals(" && "))
+                    {
+                        Boolean d1 = QUEUE_RESULTS_FINAL.poll();
+                        Boolean d2 = QUEUE_RESULTS.poll();
+                        if (d1 && d2)
+                        {
+                            QUEUE_RESULTS_FINAL.add(true);
+                        }
+                    }
+                    else
+                    {
+                        Boolean d1 = QUEUE_RESULTS_FINAL.poll();
+                        Boolean d2 = QUEUE_RESULTS.poll();
+                        if (d1 || d2)
+                        {
+                            QUEUE_RESULTS_FINAL.add(true);
+                        }
+                        else
+                        {
+                            QUEUE_RESULTS_FINAL.add(false);
+                        }
+                    }
+                }
+                else if (elemento.equals(" && "))
+                {
+                    Boolean d1 = QUEUE_RESULTS_FINAL.poll();
+                    Boolean d2 = QUEUE_RESULTS.poll();
+                    if (d1 && d2)
+                    {
+                        QUEUE_RESULTS_FINAL.add(true);
+                    }
+                    else
+                    {
+                        QUEUE_RESULTS_FINAL.add(false);
+                    }
+                }
+                else
+                {
+                    if (QUEUE_RESULTS.isEmpty())
+                    {
+                        Boolean d1 = QUEUE_RESULTS_FINAL.poll();
+                        Boolean d2 = QUEUE_RESULTS_FINAL.poll();
+                        if (d1 || d2)
+                        {
+                            QUEUE_RESULTS_FINAL.add(true);
+                        }
+                        else
+                        {
+                            QUEUE_RESULTS_FINAL.add(false);
+                        }
+                    }
+                    else
+                    {
+                        Boolean d1 = QUEUE_RESULTS_FINAL.poll();
+                        Boolean d2 = QUEUE_RESULTS.poll();
+                        if (d1 || d2)
+                        {
+                            QUEUE_RESULTS_FINAL.add(true);
+                        }
+                        else
+                        {
+                            QUEUE_RESULTS_FINAL.add(false);
+                        }
+                    }
+                }
+            }
+        } return false;
+    }
 }
