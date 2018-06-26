@@ -13,7 +13,8 @@ public class TestFilter
     private static SimpleDateFormat simpleDateFormat;
     private long inicio = System.currentTimeMillis();
 
-    static {
+    static
+    {
         simpleDateFormat = new SimpleDateFormat("ddmmyyyy");
     }
 
@@ -62,18 +63,13 @@ public class TestFilter
     public void datos()
     {
         //String script = (EvalData("false", ">", "", "", "27/06/2017", "25/07/06","30"));
-        String script = (EvalData("false", ">", "", "(", "27/06/2017", "25/07/2016", "30"));
-        script += (EvalData("false", "LIKE", "0", "", "Z264", "Z264*", "1"));
-        script += (EvalData("false", "LIKE", "0", ")", "B003*", "B0030606", "1"));
-        script += (EvalData("false", "<>", "1", "(", "35", "96", "10"));
-        script += (EvalData("false", "<=", "0", ")", "5", "16", "10"));
-        script += (EvalData("false", "<", "1", "(", "5", "16", "10"));
-        script += (EvalData("false", ">", "0", ")", "5", "16", "10"));
-        //script += (EvalData("false", "<=", "1", ")", "35", "96","10"));
+        String script = (scriptBuilder("false", "<", "", "", "37", "60", "10"));
+        script += (scriptBuilder("false", "LIKE", "0", "(", "aei", "ae*", "1"));
+        script += (scriptBuilder("false", ">", "1", ")", "27", "5", "10"));
         System.out.println("Result TestFilter 1 (" + EvaluationProccess(script) + ") -> " + script + " Evaluado en " + (System.currentTimeMillis() - inicio) + " milisegundos");
     }
 
-    private String EvalData(String negate, String operator, String connector, String parenthesis, String value, String dato,String type)
+    private String scriptBuilder(String negate, String operator, String connector, String parenthesis,  String dato,String value, String type)
     {
         if (dato != null)
         {
@@ -81,9 +77,9 @@ public class TestFilter
             Script += (connector.equals("1")) ? " || " : "";
             Script += (connector.equals("0")) ? " && " : "";
             Script += (parenthesis.equals("(")) ? "(" : "";
-            Script += (value.contains("*")) ? "(\"" + dato + "\")" + Operators.forValue(operator).getOperadorCodigo() + "(\"" + value.replace('*','%') : "(\"" + dato + "\")" + Operators.forValue(operator).getOperadorCodigo() + "(\"" + value + "\") ";
+            Script += (value.contains("*")) ? "(\"" + dato + "\")" + Operators.forValue(operator).getOperadorCodigo() + "(\"" + value.replace("*", "") + "\")" : "(\"" + dato + "\")" + Operators.forValue(operator).getOperadorCodigo() + "(\"" + value + "\") ";
             Script += (parenthesis.equals(")")) ? ")" : "";
-            Script = (type.equals("10")||type.equals("11")) ? Script.replace("\""," ") :  Script;
+            Script = (type.equals("10") || type.equals("11")) ? Script.replace("\"", "") : Script;
             return Script;
         }
         return null;
