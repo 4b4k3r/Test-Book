@@ -20,7 +20,7 @@ public class TestFilter
 
     private enum Operators
     {
-        IGUAL("=", " == "), NO_IGUAL("<>", " != "), MENOR("<", " < "), MAYOR(">", " > "), MAYOR_IGUAL(">=", " >= "), MENOR_IGUAL("<=", " <= "), COMO("LIKE", ".contains");
+        IGUAL("=", " == "), NO_IGUAL("<>", " != "), MENOR("<", " < "), MAYOR(">", " > "), MAYOR_IGUAL(">=", " >= "), MENOR_IGUAL("<=", " <= "), COMO("LIKE", "==");
 
         private String operador;
         private String operadorCodigo;
@@ -62,24 +62,34 @@ public class TestFilter
 
     public void datos()
     {
-        scriptBuilder("true", "<", "", "", "37", "60", "10");
-        scriptBuilder("false", "LIKE", "1", "(", "aei", "ae*", "1");
-        scriptBuilder("false", ">", "1", ")", "27", "5", "10");
+        //value se obtiene de los filtros y dato se obtiene del layout de la transaccion
+        scriptBuilder("false", "<>", "", "", "03/06/2016", "03/05/2016", "30");
+        scriptBuilder("false", "LIKE", "1", "(", "aei", "ai*", "1");
+        scriptBuilder("false", ">", "0", "", "03/06/2018", "03/05/2012", "30");
+        scriptBuilder("true", ">=", "1", "(", "25", "12", "10");
+        scriptBuilder("false", "=", "0", "(", "16", "21", "11");
+        scriptBuilder("true", "<=", "1", "", "79", "13226", "11");
+        scriptBuilder("false", "<", "0", ")", "44032", "987", "10");
+        scriptBuilder("true", "LIKE", "0", ")", "administrador", "admin*", "1");
+        scriptBuilder("true", "<>", "1", ")", "27", "5", "11");
+        scriptBuilder("false", "LIKE", "0", "", "EstadosUnidosMexicanos", "*Mexicanos", "11");
         System.out.println("Result TestFilter 1 (" + EvaluationProccess(Script) + ") -> " + Script + " Evaluado en " + (System.currentTimeMillis() - inicio) + " milisegundos");
     }
 
-    private void scriptBuilder(String negate, String operator, String connector, String parenthesis,  String dato,String value, String type)
+    private void scriptBuilder(String negate, String operator, String connector, String parenthesis, String dato, String value, String type)
     {
         if (dato != null)
         {
-            String script = (negate.equals("true")) ? " ! " : "";
-            script += (connector.equals("1")) ? " || " : "";
-            script += (connector.equals("0")) ? " && " : "";
-            script += (parenthesis.equals("(")) ? "(" : "";
-            script += (value.contains("*")) ? "(\"" + dato + "\")" + Operators.forValue(operator).getOperadorCodigo() + "(\"" + value.replace("*", "") + "\")" : "(\"" + dato + "\")" + Operators.forValue(operator).getOperadorCodigo() + "(\"" + value + "\") ";
-            script += (parenthesis.equals(")")) ? ")" : "";
+            String script = (connector.contains("1")) ? " || " : "";
+            script += (connector.contains("0")) ? " && " : "";
+            script += (negate.contains("true")) ? "!" : "";
+            script += (parenthesis.contains("(")) ? "(" : "";
+            script += (value.startsWith("*")) ? "(\"" + dato + "\").endsWith(\"" + value.replace("*", "") + "\")" : "";
+            script += (value.endsWith("*")) ? "(\"" + dato + "\").startsWith(\"" + value.replace("*", "") + "\")" : "";
+            script += (!value.contains("*")) ? "(\"" + dato + "\")" + Operators.forValue(operator).getOperadorCodigo() + "(\"" + value + "\")" : "";
+            script += (parenthesis.contains(")")) ? ")" : "";
             script = (type.equals("10") || type.equals("11")) ? script.replace("\"", "") : script;
-            Script +=script;
+            Script += script;
         }
     }
 

@@ -1,5 +1,7 @@
 package com.ks.TestFilter;
 
+import jboolexpr.BooleanExpression;
+import jboolexpr.MalformedBooleanException;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -14,7 +16,7 @@ public class TestFilter2
 
     private enum Operators
     {
-        IGUAL("=", " == "), NO_IGUAL("<>", " != "), MENOR("<", " < "), MAYOR(">", " > "), MAYOR_IGUAL(">=", " >= "), MENOR_IGUAL("<=", " <= "), COMO("LIKE", ".equals"), Y("0", " && "), O("1", " || ");
+        IGUAL("=", " == "), NO_IGUAL("<>", " != "), MENOR("<", " < "), MAYOR(">", " > "), MAYOR_IGUAL(">=", " >= "), MENOR_IGUAL("<=", " <= "), COMO("LIKE", ".equals"), Y("0", "&&"), O("1", "||");
 
         private String operador;
         private String operadorCodigo;
@@ -60,19 +62,33 @@ public class TestFilter2
 
     public void datos()
     {
-        //dato se obtiene de los filtros y value se obtiene de los datos de la transaccion
-        scriptBuilder("true", "<", "", "", "37", "60", "10");
-        scriptBuilder("false", "LIKE", "1", "(", "aei", "ae*", "1");
-        scriptBuilder("false", ">", "1", ")", "27", "5", "10");
+        //value se obtiene de los filtros y dato se obtiene del layout de la transaccion
+        scriptBuilder("false", "<>", "", "", "03/06/2016", "03/05/2016", "30");
+        scriptBuilder("false", "LIKE", "1", "(", "aei", "ai*", "1");
+        scriptBuilder("false", ">", "0", "", "03/06/2018", "03/05/2012", "30");
+        scriptBuilder("true", ">=", "1", "(", "25", "12", "10");
+        scriptBuilder("false", "=", "0", "(", "16", "21", "11");
+        scriptBuilder("true", "<=", "1", "", "79", "13226", "11");
+        scriptBuilder("false", "<", "0", ")", "44032", "987", "10");
+        scriptBuilder("true", "LIKE", "0", ")", "administrador", "admin*", "1");
+        scriptBuilder("true", "<>", "1", ")", "27", "5", "11");
+        scriptBuilder("false", "LIKE", "0", "", "EstadosUnidosMexicanos", "*Mexicanos", "11");
         depurationProcess();
-        evaluationProcess();
-        System.out.println("Result TestFilter 1 (" + QUEUE_RESULTS.peek() + ") -> " + Script + " Evaluado en " + (System.currentTimeMillis() - inicio) + " milisegundos");
+        String strBoolExpr = Script;
+        BooleanExpression boolExpr = null;
+        boolean bool = false;
+        try
+        {
+            boolExpr = BooleanExpression.readLeftToRight(strBoolExpr);
+            bool = boolExpr.booleanValue();
+        }
+        catch (MalformedBooleanException e)
+        {
+            e.printStackTrace();
+        }
+        System.out.println("Result TestFilter 2 (" + bool + ") -> " + Script + " Evaluado en " + (System.currentTimeMillis() - inicio) + " milisegundos");
     }
 
-    private void evaluationProcess()
-    {
-
-    }
 
     private void scriptBuilder(String negate, String operator, String connector, String parenthesis, String dato, String value, String type)
     {
@@ -84,7 +100,7 @@ public class TestFilter2
             }
             if (negate.equals("true"))
             {
-                QUEUE_OPERATORS.add(" ! ");
+                QUEUE_OPERATORS.add("!");
             }
             if (parenthesis.equals("("))
             {
@@ -144,8 +160,33 @@ public class TestFilter2
             }
             else if (type.equals("1"))
             {
-                value = (value.contains("*")) ? value.replace("*", "") : value;
-                if (operador.equals(".equals"))
+                if (value.contains("*"))
+                {
+                    value = value.replace("*", "");
+                    if (value.endsWith("*"))
+                    {
+                        if (dato.startsWith(value))
+                        {
+                            QUEUE_RESULTS.add(true);
+                        }
+                        else
+                        {
+                            QUEUE_RESULTS.add(false);
+                        }
+                    }
+                    else
+                    {
+                        if (dato.endsWith(value))
+                        {
+                            QUEUE_RESULTS.add(true);
+                        }
+                        else
+                        {
+                            QUEUE_RESULTS.add(false);
+                        }
+                    }
+                }
+                else
                 {
                     if (dato.contains(value))
                     {
@@ -178,11 +219,11 @@ public class TestFilter2
                 }
             }
         }
+
         depuratedList = QUEUE_OPERATORS.toArray();
         for (int i = 0; i < depuratedList.length; i++)
         {
-            depuratedList[i] = (QUEUE_OPERATORS.poll().contains(".")) ? QUEUE_RESULTS.poll() : depuratedList[i];
-            Script += depuratedList[i];
+            Script += (QUEUE_OPERATORS.poll().contains(".")) ? QUEUE_RESULTS.poll() : depuratedList[i];
         }
     }
 }

@@ -56,7 +56,11 @@
       <groupId>oracle</groupId>
       <artifactId>ojdbc14</artifactId>
       <version>RELEASE</version>git status
-
+    </dependency>
+    <dependency>
+      <groupId>SunMicrosystemsInc</groupId>
+      <artifactId>jbooleanexpression</artifactId>
+      <version>1.2</version>
     </dependency>
   </dependencies>
 
