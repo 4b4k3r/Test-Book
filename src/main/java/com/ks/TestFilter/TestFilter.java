@@ -62,33 +62,30 @@ public class TestFilter
 
     public void datos()
     {
-        //String script = (EvalData("false", ">", "", "", "27/06/2017", "25/07/06","30"));
-        String script = (scriptBuilder("false", "<", "", "", "37", "60", "10"));
-        script += (scriptBuilder("false", "LIKE", "0", "(", "aei", "ae*", "1"));
-        script += (scriptBuilder("false", ">", "1", ")", "27", "5", "10"));
-        System.out.println("Result TestFilter 1 (" + EvaluationProccess(script) + ") -> " + script + " Evaluado en " + (System.currentTimeMillis() - inicio) + " milisegundos");
+        scriptBuilder("true", "<", "", "", "37", "60", "10");
+        scriptBuilder("false", "LIKE", "1", "(", "aei", "ae*", "1");
+        scriptBuilder("false", ">", "1", ")", "27", "5", "10");
+        System.out.println("Result TestFilter 1 (" + EvaluationProccess(Script) + ") -> " + Script + " Evaluado en " + (System.currentTimeMillis() - inicio) + " milisegundos");
     }
 
-    private String scriptBuilder(String negate, String operator, String connector, String parenthesis,  String dato,String value, String type)
+    private void scriptBuilder(String negate, String operator, String connector, String parenthesis,  String dato,String value, String type)
     {
         if (dato != null)
         {
-            Script = (negate.equals("true")) ? " ! " : "";
-            Script += (connector.equals("1")) ? " || " : "";
-            Script += (connector.equals("0")) ? " && " : "";
-            Script += (parenthesis.equals("(")) ? "(" : "";
-            Script += (value.contains("*")) ? "(\"" + dato + "\")" + Operators.forValue(operator).getOperadorCodigo() + "(\"" + value.replace("*", "") + "\")" : "(\"" + dato + "\")" + Operators.forValue(operator).getOperadorCodigo() + "(\"" + value + "\") ";
-            Script += (parenthesis.equals(")")) ? ")" : "";
-            Script = (type.equals("10") || type.equals("11")) ? Script.replace("\"", "") : Script;
-            return Script;
+            String script = (negate.equals("true")) ? " ! " : "";
+            script += (connector.equals("1")) ? " || " : "";
+            script += (connector.equals("0")) ? " && " : "";
+            script += (parenthesis.equals("(")) ? "(" : "";
+            script += (value.contains("*")) ? "(\"" + dato + "\")" + Operators.forValue(operator).getOperadorCodigo() + "(\"" + value.replace("*", "") + "\")" : "(\"" + dato + "\")" + Operators.forValue(operator).getOperadorCodigo() + "(\"" + value + "\") ";
+            script += (parenthesis.equals(")")) ? ")" : "";
+            script = (type.equals("10") || type.equals("11")) ? script.replace("\"", "") : script;
+            Script +=script;
         }
-        return null;
     }
 
     private Boolean EvaluationProccess(String script)
     {
         String Script = "" + "var echo; if (" + script + "){ echo=true; } else { echo=false; }";
-        //System.out.println(Script);
         try
         {
             e.eval(Script);
