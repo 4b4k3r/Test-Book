@@ -320,7 +320,7 @@ public class Base
                 vlObjFilter.setParenthesis(vlRlsDataFilter.getString("parenthesis"));
                 vlObjFilter.setValue(vlRlsDataFilter.getString("value"));
                 vlObjFilter.setPort(vlRlsDataFilter.getString("port"));
-
+                vlObjFilter.setType(vlRlsDataFilter.getString("type_data"));
                 vlObjFilter.save();
             }
         }
@@ -371,7 +371,6 @@ public class Base
                     vlObjLayout.setType(vlRlsLayoutData.getString("field_type"));
                     vlObjLayout.setName(vlRlsLayoutData.getString("name"));
                     vlObjLayout.setLength(vlRlsLayoutData.getInt("length"));
-
                     vmLayoutModel.save(vlObjLayout);
                 }
             }

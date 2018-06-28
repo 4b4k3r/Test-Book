@@ -1,19 +1,21 @@
 package com.ks.TestFilter;
 
+import com.ks.FilterEvaluation.FilterModel;
+import com.ks.FilterEvaluation.TransactionField;
 import jboolexpr.BooleanExpression;
 import jboolexpr.MalformedBooleanException;
-
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Set;
 
-public class TestFilter2
+public class TestFilter3
 {
-    private long inicio = System.currentTimeMillis();
     private Queue<String> QUEUE_OPERATORS = new LinkedList();
     private Queue<String> QUEUE_VALUES = new LinkedList();
     private Queue<Boolean> QUEUE_RESULTS = new LinkedList();
     private Object[] depuratedList;
     private String Script = "";
+    private long inicio = System.currentTimeMillis();
 
     private enum Operators
     {
@@ -61,61 +63,76 @@ public class TestFilter2
         }
     }
 
-    public void datos()
+    public Boolean evaluationProcess(String script)
     {
-        //value se obtiene de los filtros y dato se obtiene del layout de la transaccion
-        scriptBuilder("false", "<>", "", "", "03/06/2016", "03/05/2016", "30");
-        scriptBuilder("false", "LIKE", "1", "(", "aei", "ai*", "1");
-        scriptBuilder("false", ">", "0", "", "03/06/2018", "03/05/2012", "30");
-        scriptBuilder("true", ">=", "1", "(", "25", "12", "10");
-        scriptBuilder("false", "=", "0", "(", "16", "21", "11");
-        scriptBuilder("true", "<=", "1", "", "79", "13226", "11");
-        scriptBuilder("false", "<", "0", ")", "44032", "987", "10");
-        scriptBuilder("true", "LIKE", "0", ")", "administrador", "admin*", "1");
-        scriptBuilder("true", "<>", "1", ")", "27", "5", "11");
-        scriptBuilder("false", "LIKE", "0", "", "EstadosUnidosMexicanos", "*Mexicanos", "1");
-        depurationProcess();
-        String strBoolExpr = Script;
-        BooleanExpression boolExpr = null;
         boolean bool = false;
         try
         {
-            boolExpr = BooleanExpression.readLeftToRight(strBoolExpr);
+            BooleanExpression boolExpr = BooleanExpression.readLeftToRight(script);
             bool = boolExpr.booleanValue();
         }
         catch (MalformedBooleanException e)
         {
             e.printStackTrace();
         }
-        System.out.println("Result TestFilter 2 (" + bool + ") -> " + Script + " Evaluado en " + (System.currentTimeMillis() - inicio) + " milisegundos");
+        System.out.println("Result TestFilter 3 (" + bool + ") -> " + Script + " Evaluado en " + (System.currentTimeMillis() - inicio) + " milisegundos");
+        return bool;
     }
 
+    public Boolean evaluationProcess(Set<FilterModel> filters,  TransactionField transactionField )
+    {
+        if (filters==null||transactionField==null)
+        {
+            return false;
+        }
+        for (FilterModel filterModel : filters)
+        {
+            int idField = Integer.parseInt(filterModel.getIdField());
+            String negated = String.valueOf(filterModel.getIsNegated());
+            String operator = filterModel.getOperator();
+            String connector = filterModel.getConnector();
+            String parenthesis = filterModel.getParenthesis();
+            String dato = transactionField.getField(idField);
+            String value = filterModel.getValue();
+            String type = filterModel.getType();
+            scriptBuilder(negated,operator,connector,parenthesis,dato,value,type);
+        }
+        boolean bool = false;
+        try
+        {
+            BooleanExpression boolExpr = BooleanExpression.readLeftToRight(Script);
+            bool = boolExpr.booleanValue();
+        }
+        catch (MalformedBooleanException e)
+        {
+            e.printStackTrace();
+        }
+        System.out.println("Result TestFilter 3 (" + bool + ") -> " + Script + " Evaluado en " + (System.currentTimeMillis() - inicio) + " milisegundos");
+        return bool;
+    }
 
     private void scriptBuilder(String negate, String operator, String connector, String parenthesis, String dato, String value, String type)
     {
-        if (dato != null)
+        if (!connector.equals(""))
         {
-            if (!connector.equals(""))
-            {
-                QUEUE_OPERATORS.add(Operators.forValue(connector).getOperadorCodigo());
-            }
-            if (negate.equals("true"))
-            {
-                QUEUE_OPERATORS.add("!");
-            }
-            if (parenthesis.equals("("))
-            {
-                QUEUE_OPERATORS.add(parenthesis);
-            }
-            QUEUE_OPERATORS.add(".");
-            QUEUE_VALUES.add(type);
-            QUEUE_VALUES.add(dato);
-            QUEUE_VALUES.add(Operators.forValue(operator).getOperadorCodigo());
-            QUEUE_VALUES.add(value);
-            if (parenthesis.equals(")"))
-            {
-                QUEUE_OPERATORS.add(parenthesis);
-            }
+            QUEUE_OPERATORS.add(Operators.forValue(connector).getOperadorCodigo());
+        }
+        if (negate.equals("true"))
+        {
+            QUEUE_OPERATORS.add("!");
+        }
+        if (parenthesis.equals("("))
+        {
+            QUEUE_OPERATORS.add(parenthesis);
+        }
+        QUEUE_OPERATORS.add(".");
+        QUEUE_VALUES.add(type);
+        QUEUE_VALUES.add(dato);
+        QUEUE_VALUES.add(Operators.forValue(operator).getOperadorCodigo());
+        QUEUE_VALUES.add(value);
+        if (parenthesis.equals(")"))
+        {
+            QUEUE_OPERATORS.add(parenthesis);
         }
     }
 

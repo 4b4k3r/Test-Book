@@ -72,7 +72,7 @@ public class TestFilter
         scriptBuilder("false", "<", "0", ")", "44032", "987", "10");
         scriptBuilder("true", "LIKE", "0", ")", "administrador", "admin*", "1");
         scriptBuilder("true", "<>", "1", ")", "27", "5", "11");
-        scriptBuilder("false", "LIKE", "0", "", "EstadosUnidosMexicanos", "*Mexicanos", "11");
+        scriptBuilder("false", "LIKE", "0", "", "EstadosUnidosMexicanos", "*Mexicanos", "1");
         System.out.println("Result TestFilter 1 (" + EvaluationProccess(Script) + ") -> " + Script + " Evaluado en " + (System.currentTimeMillis() - inicio) + " milisegundos");
     }
 

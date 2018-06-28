@@ -15,6 +15,7 @@ public class FilterModel
     private String operator;
     private String parenthesis;
     private String value;
+    private String type;
 
     private Boolean isNegated;
 
@@ -28,6 +29,7 @@ public class FilterModel
         parenthesis = "";
         parenthesis = "";
         value = "";
+        value = type;
         isNegated = false;
     }
 
@@ -39,7 +41,8 @@ public class FilterModel
         FILTER_HASH.put(this.port, filterModels);
     }
 
-    public static Set<FilterModel> getPortFilters (String port){
+    public static Set<FilterModel> getPortFilters(String port)
+    {
         return FILTER_HASH.getOrDefault(port, new HashSet<>());
     }
 
@@ -106,6 +109,16 @@ public class FilterModel
     public String getValue()
     {
         return value;
+    }
+
+    public String getType()
+    {
+        return type;
+    }
+
+    public void setType(String type)
+    {
+        this.type = type;
     }
 
     public void setValue(String value)
