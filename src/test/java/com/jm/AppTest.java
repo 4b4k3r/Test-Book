@@ -2,6 +2,8 @@ package com.jm;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -16,5 +18,17 @@ public class AppTest
     public void shouldAnswerWithTrue()
     {
         assertTrue( true );
+    }
+
+    @After
+    public void tearDown() throws Exception
+    {
+
+    }
+
+    @Before
+    public void setUp() throws Exception
+    {
+
     }
 }
